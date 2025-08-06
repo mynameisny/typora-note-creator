@@ -82,7 +82,7 @@ export default function CreateNoteCommand() {
       }
       searchBarAccessory={
         <Form.LinkAccessory
-          target="https://developers.raycast.com/api-reference/user-interface/form"
+          target="https://github.com/mynameisny/typora-note-creator"
           text="Open Documentation"
         />
       }
