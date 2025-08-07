@@ -19,6 +19,18 @@ function resolveNotesDir(): string {
   return notesDir.startsWith("~") ? join(homedir(), notesDir.slice(1)) : notesDir;
 }
 
+function resolveNoteApp(): string {
+  const { appPath } = getPreferenceValues<{ appPath: any }>();
+  if (typeof appPath === "string") {
+    return appPath;
+  }
+  // Raycast appPicker 返回对象 { name, path }
+  if (appPath && typeof appPath === "object") {
+    return appPath.name || appPath.path || "Typora";
+  }
+  return "Typora";
+}
+
 export default function CreateNoteCommand() {
   const [templates, setTemplates] = useState<string[]>([]);
   const [loadingTemplates, setLoadingTemplates] = useState(true);
@@ -36,7 +48,7 @@ export default function CreateNoteCommand() {
     setLoadingTemplates(false);
   }, []);
 
-  async function handleSubmit(values: { title: string; template?: string }) {
+  async function handleSubmit(values: { title: string; template?: string; useIndex: boolean }) {
     const folderName = values.title.trim();
     if (!folderName) {
       await showToast({ style: Toast.Style.Failure, title: "Title cannot be empty" });
@@ -45,7 +57,8 @@ export default function CreateNoteCommand() {
 
     const baseDir = resolveNotesDir();
     const folderPath = join(baseDir, folderName);
-    const filePath = join(folderPath, `${folderName}.md`);
+    const fileName = values.useIndex ? "index.md" : `${folderName}.md`;
+    const filePath = join(folderPath, fileName);
 
     if (!existsSync(folderPath)) {
       mkdirSync(folderPath, { recursive: true });
@@ -61,7 +74,18 @@ export default function CreateNoteCommand() {
     }
 
     writeFileSync(filePath, content);
-    exec(`open -a Typora "${filePath}"`);
+    //exec(`open -a Typora "${filePath}"`);
+
+    // 使用用户选择的 Typora 路径
+    // 使用用户选择的应用路径
+    const noteApp = resolveNoteApp();
+    const openCmd = `open -a "${noteApp}" "${filePath}"`;
+    console.log("openCmd:", openCmd);
+    exec(openCmd, (err) => {
+      if (err) {
+        showToast({ style: Toast.Style.Failure, title: "无法打开应用", message: err.message });
+      }
+    });
 
     await showToast({ style: Toast.Style.Success, title: `Created note: ${folderName}` });
     popToRoot();
@@ -88,8 +112,9 @@ export default function CreateNoteCommand() {
       }
     >
       <Form.TextField id="title" title="Title" autoFocus placeholder="e.g. Study Plan 2025" />
-      <Form.Dropdown id="template" title="Template" storeValue>
-        <Form.Dropdown.Item value="" title="(None)" icon={Icon.Circle} />
+      <Form.Checkbox id="useIndex" label="Use index.md as the filename" storeValue defaultValue={false} />
+      <Form.Dropdown id="template" title="Template" storeValue info="可选" >
+        <Form.Dropdown.Item value="" title="(None)" icon={Icon.Circle}/>
         {templates.map((t) => (
           <Form.Dropdown.Item
             key={t}

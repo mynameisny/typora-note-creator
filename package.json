@@ -28,6 +28,15 @@
       "required": true,
       "placeholder": "Select the directory to store notes",
       "default": "~/Documents/Notes"
+    },
+    {
+      "name": "appPath",
+      "title": "Note Application",
+      "description": "Select the application to open notes with",
+      "type": "appPicker",
+      "required": true,
+      "placeholder": "Select your note app",
+      "default": "Typora"
     }
   ],
   "dependencies": {
