@@ -48,7 +48,7 @@ You can optionally configure:
 ## 🚀 How to Use
 
 1. Open Raycast (⌘ + Space, then type command)
-2. Run `Create Note Folder`
+2. Run `Create Note`
 3. Enter the name of your note
 4. Select a template (optional)
 5. A new folder and markdown file will be created in your configured note root directory.
@@ -78,6 +78,12 @@ You can configure the following in the extension's settings:
 ## 📎 Why Not Just Use Typora?
 
 Typora is an excellent markdown editor but lacks plugin support. This Raycast extension fills that gap by handling the file/folder boilerplate for you — letting you focus on writing.
+
+---
+
+## 📎 Why Template location is fixed and cannot be changed?
+
+Having a fixed template directory ensures that all your note templates are always in a predictable place, making it easier for the extension to manage, find, and use your templates reliably. This also avoids confusion and potential errors caused by moving or renaming the template folder.
 
 ---
 

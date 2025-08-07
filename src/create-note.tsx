@@ -83,7 +83,7 @@ export default function CreateNoteCommand() {
     console.log("openCmd:", openCmd);
     exec(openCmd, (err) => {
       if (err) {
-        showToast({ style: Toast.Style.Failure, title: "无法打开应用", message: err.message });
+        showToast({ style: Toast.Style.Failure, title: "Failed to open the app", message: err.message });
       }
     });
 
@@ -96,12 +96,13 @@ export default function CreateNoteCommand() {
       isLoading={loadingTemplates}
       actions={
         <ActionPanel>
-          <Action.SubmitForm title="Create Note" onSubmit={handleSubmit} />
+          <Action.SubmitForm title="Create Note" onSubmit={handleSubmit} icon={Icon.Document} />
           <Action
             title="Open Template Directory in Finder"
             onAction={() => exec(`open "${join(resolveNotesDir(), ".note-templates")}"`)}
             icon={Icon.Finder}
           />
+          <Action.CopyToClipboard title="Copy Template Directory Path" content={join(resolveNotesDir(), ".note-templates")} />
         </ActionPanel>
       }
       searchBarAccessory={
@@ -113,8 +114,8 @@ export default function CreateNoteCommand() {
     >
       <Form.TextField id="title" title="Title" autoFocus placeholder="e.g. Study Plan 2025" />
       <Form.Checkbox id="useIndex" label="Use index.md as the filename" storeValue defaultValue={false} />
-      <Form.Dropdown id="template" title="Template" storeValue info="可选" >
-        <Form.Dropdown.Item value="" title="(None)" icon={Icon.Circle}/>
+      <Form.Dropdown id="template" title="Template" storeValue info="You can open the template directory from the Action Panel below." >
+        <Form.Dropdown.Item value="" title="(None)" icon={Icon.CircleDisabled}/>
         {templates.map((t) => (
           <Form.Dropdown.Item
             key={t}
@@ -124,7 +125,12 @@ export default function CreateNoteCommand() {
           />
         ))}
       </Form.Dropdown>
-      <Form.Description text="You can open the template directory from the Action Panel below." />
+      <Form.Description
+        text={`The template directory is located at ".note-templates" under your notes root directory (${join(
+          resolveNotesDir(),
+          ".note-templates"
+        )}). This location is fixed and cannot be changed.`}
+      />
     </Form>
   );
 }
