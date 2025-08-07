@@ -99,3 +99,5 @@ Having a fixed template directory ensures that all your note templates are alway
 ## 💬 Feedback & Contributions
 
 This tool was built to solve a real-world workflow issue. If you have ideas, feature requests, or want to contribute — feel free to open an issue or pull request!
+
+More detail see https://developers.raycast.com
