@@ -109,7 +109,7 @@ export default function CreateNoteCommand() {
       >
         <Form.Dropdown.Item value="" title="(None)" icon={Icon.CircleDisabled} />
         {templates.map((t) => (
-          <Form.Dropdown.Item key={t} value={t} title={t.replace(/\.md$/, "")} icon={{ fileIcon: __filename }} />
+          <Form.Dropdown.Item key={t} value={t} title={t.replace(/\.md$/, "")} icon={Icon.Document} />
         ))}
       </Form.Dropdown>
       <Form.Description
