@@ -1,4 +1,4 @@
-# 📁 Create Note Folder – A Raycast Extension for Structured Note Management
+# 📁 Typora Note Creator – A Raycast Extension for Structured Note Management
 
 A simple yet efficient Raycast extension that streamlines your note creation workflow in Typora (or any markdown editor).  
 Inspired by Obsidian's [folder-notes](https://github.com/LostPaul/obsidian-folder-notes), this tool automates the repetitive and error-prone steps of note initialization — without relying on plugins.
