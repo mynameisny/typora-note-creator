@@ -1,13 +1,4 @@
-import {
-  Action,
-  ActionPanel,
-  Form,
-  showToast,
-  Toast,
-  popToRoot,
-  Icon,
-  getPreferenceValues,
-} from "@raycast/api";
+import { Action, ActionPanel, Form, showToast, Toast, popToRoot, Icon, getPreferenceValues } from "@raycast/api";
 import { useState, useEffect } from "react";
 import { readdirSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { homedir } from "os";
@@ -74,7 +65,7 @@ export default function CreateNoteCommand() {
     }
 
     writeFileSync(filePath, content);
-    
+
     const noteApp = resolveNoteApp();
     const openCmd = `open -a "${noteApp}" "${filePath}"`;
     exec(openCmd, (err) => {
@@ -98,33 +89,33 @@ export default function CreateNoteCommand() {
             onAction={() => exec(`open "${join(resolveNotesDir(), ".note-templates")}"`)}
             icon={Icon.Finder}
           />
-          <Action.CopyToClipboard title="Copy Template Directory Path" content={join(resolveNotesDir(), ".note-templates")} />
+          <Action.CopyToClipboard
+            title="Copy Template Directory Path"
+            content={join(resolveNotesDir(), ".note-templates")}
+          />
         </ActionPanel>
       }
       searchBarAccessory={
-        <Form.LinkAccessory
-          target="https://github.com/mynameisny/typora-note-creator"
-          text="Open Documentation"
-        />
+        <Form.LinkAccessory target="https://github.com/mynameisny/typora-note-creator" text="Open Documentation" />
       }
     >
       <Form.TextField id="title" title="Title" autoFocus placeholder="e.g. Study Plan 2025" />
       <Form.Checkbox id="useIndex" label="Use index.md as the filename" storeValue defaultValue={false} />
-      <Form.Dropdown id="template" title="Template" storeValue info="You can open the template directory from the Action Panel below." >
-        <Form.Dropdown.Item value="" title="(None)" icon={Icon.CircleDisabled}/>
+      <Form.Dropdown
+        id="template"
+        title="Template"
+        storeValue
+        info="You can open the template directory from the Action Panel below."
+      >
+        <Form.Dropdown.Item value="" title="(None)" icon={Icon.CircleDisabled} />
         {templates.map((t) => (
-          <Form.Dropdown.Item
-            key={t}
-            value={t}
-            title={t.replace(/\.md$/, "")}
-            icon={{ fileIcon: __filename }}
-          />
+          <Form.Dropdown.Item key={t} value={t} title={t.replace(/\.md$/, "")} icon={{ fileIcon: __filename }} />
         ))}
       </Form.Dropdown>
       <Form.Description
         text={`The template directory is located at ".note-templates" under your notes root directory (${join(
           resolveNotesDir(),
-          ".note-templates"
+          ".note-templates",
         )}). This location is fixed and cannot be changed.`}
       />
     </Form>
